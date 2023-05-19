@@ -1,0 +1,55 @@
+﻿@page "/delete-user"
+@using ShareIt.Client.Service
+@using ShareIt.Shared
+@inject IAuthService AuthService
+@inject NavigationManager NavigationManager
+
+<h3>Delete User</h3>
+
+<EditForm Model="deleteUserModel" OnValidSubmit="Delete">
+    <div class="form-group">
+        <label>Email:</label>
+        <InputText @bind-Value="deleteUserModel.Email" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Password:</label>
+        <InputText @bind-Value="deleteUserModel.Password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label>Confirm Password:</label>
+        <InputText @bind-Value="deleteUserModel.ConfirmPassword" class="form-control" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </div>
+    @if (!string.IsNullOrEmpty(errorMessage))
+    {
+        <div class="alert alert-danger" role="alert">@errorMessage</div>
+    }
+</EditForm>
+
+@code {
+    private DeleteUserModel deleteUserModel = new DeleteUserModel();
+    private string errorMessage;
+
+    private async Task Delete()
+    {
+        if (deleteUserModel.Password != deleteUserModel.ConfirmPassword)
+        {
+            errorMessage = "Passwords do not match.";
+            return;
+        }
+
+        var deleteResult = await AuthService.Delete(deleteUserModel);
+
+        if (!deleteResult.Successful)
+        {
+            errorMessage = deleteResult.ErrorMessage;
+        }
+        else
+        {
+            await AuthService.Logout();
+            NavigationManager.NavigateTo("/");
+        }
+    }
+}

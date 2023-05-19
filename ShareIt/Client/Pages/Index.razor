@@ -1,0 +1,111 @@
+﻿@page "/"
+@inject NavigationManager NavigationManager
+@using ShareIt.Client.Helper
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Foodsharing</title>
+    <style>
+        body {
+            font-family: "Arial", sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .not-authorized-container {
+            background-image: url("https://i.ibb.co/XjbpwwJ/ahead-g1d8603965-1920.jpg");
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+            .not-authorized-container h1 {
+                font-size: 3rem;
+                color: #333;
+                margin: 0;
+            }
+
+            .not-authorized-container .tagline {
+                font-size: 1.5rem;
+                color: black;
+                margin-bottom: 2rem;
+                text-align: center;
+                line-height: 1.8;
+            }
+
+            .not-authorized-container .btn-login {
+                padding: 1rem 2rem;
+                font-size: 1.2rem;
+                background-color: #e74c3c;
+                color: #fff;
+                border: none;
+                border-radius: 4px;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            .not-authorized-container .btn-container {
+                margin-top: 1rem;
+            }
+
+            .not-authorized-container .btn-login:hover {
+                background-color: #c0392b;
+            }
+
+        .authorized-container {
+            background-color: white;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .authorized-container p {
+                font-size: 2rem;
+                color: #333;
+                margin: 0;
+            }
+    </style>
+</head>
+<body>
+    <AuthorizeView>
+        <Authorized>
+            <div class="authorized-container">
+                <p>Wer gewinnt die Champions League? Ich glaube Man City Aufjedenfall</p>
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            <div class="not-authorized-container">
+                <h1>Herzlich Willkommen bei ShareIt</h1>
+                <p class="tagline">
+                    Unsere Vision ist es, die Essensverschwendung zu reduzieren.
+                    Das findest du cool? Dann mach auch du mit.
+                </p>
+                <div class="btn-container">
+                    <button class="btn-login" @onclick="RedirectToRegister">Jetzt Mitmachen</button>
+                </div>
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+
+    @code {
+        private void RedirectToRegister()
+        {
+            NavigationManager.NavigateTo("/register");
+        }
+    }
+</body>
+</html>
