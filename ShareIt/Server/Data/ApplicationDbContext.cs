@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using ShareIt.Server.DataObjects;
 
 namespace ShareIt.Server.Data
 {
@@ -8,5 +9,8 @@ namespace ShareIt.Server.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
+
+        public DbSet<FoodItem> FoodItems { get; set; }
     }
 }
+

@@ -1,0 +1,67 @@
+﻿@page "/upload-food-item"
+@using ShareIt.Client.Service
+@using ShareIt.Shared
+@inject IFoodItemService FoodItemService
+@inject NavigationManager NavigationManager
+
+<h3 class="text-center">Objekt Schenken</h3>
+<p class="text-center mt-4">Was möchten Sie schenken?</p>
+
+<EditForm @bind-Model="foodItem" OnValidSubmit="UploadFoodItem">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="foodItemName">Name:</label>
+                    <input id="foodItemName" class="form-control" @bind="@foodItem.Name" />
+                    <ValidationMessage For="@(() => foodItem.Name)" />
+                </div>
+                <div class="form-group">
+                    <label for="foodItemPrice">Preis:</label>
+                    <input id="foodItemPrice" class="form-control" @bind="@foodItem.Price" />
+                    <ValidationMessage For="@(() => foodItem.Price)" />
+                </div>
+                <div class="form-group">
+                    <label for="foodItemImageUrl">Foto URL:</label>
+                    <input id="foodItemImageUrl" class="form-control" @bind="@foodItem.ImageUrl" />
+                    <ValidationMessage For="@(() => foodItem.ImageUrl)" />
+                </div>
+                <div class="form-group">
+                    <label for="foodItemDescription">Beschreibung:</label>
+                    <textarea id="foodItemDescription" class="form-control" @bind="@foodItem.Description"></textarea>
+                    <ValidationMessage For="@(() => foodItem.Description)" />
+                </div>
+                <div class="form-group">
+                    <label for="foodItemUserName">Benutzername:</label>
+                    <input id="foodItemUserName" class="form-control" @bind="@foodItem.UserName" />
+                    <ValidationMessage For="@(() => foodItem.UserName)" />
+                </div>
+                <div class="text-center">
+                    <button class="btn btn-primary" type="submit">Hochladen</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</EditForm>
+
+@code {
+    private FoodItemModel foodItem = new FoodItemModel();
+    private FoodItemResult? uploadResult;
+
+    private async Task UploadFoodItem()
+    {
+        uploadResult = await FoodItemService.UploadFoodItem(foodItem);
+
+        if (uploadResult.Successful)
+        {
+            // Food-Element erfolgreich hochgeladen, leite zur Erfolgsseite weiter oder führe andere Aktionen aus
+            NavigationManager.NavigateTo("/authorizedHome");
+        }
+        else
+        {
+            // Fehler beim Hochladen des Food-Elements, hier kannst du entsprechende Fehlerbehandlung durchführen
+            // z.B. Fehlermeldung anzeigen
+            Console.WriteLine(uploadResult.ErrorMessage);
+        }
+    }
+}

@@ -48,12 +48,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5EaXNwbGF5LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/LoginHome.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5Ib21lLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/Logout.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9nb3V0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/Register.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXIucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/UploadingFoodItem.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXBsb2FkaW5nRm9vZEl0ZW0ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Shared/SurveyPrompt.razor]
