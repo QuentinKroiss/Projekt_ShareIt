@@ -28,6 +28,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/DeleteItem.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGVsZXRlSXRlbS5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/DeleteUser.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGVsZXRlVXNlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -56,12 +60,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9nb3V0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/ObjectView.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT2JqZWN0Vmlldy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/ObjectViewHistory.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT2JqZWN0Vmlld0hpc3RvcnkucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/Register.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXIucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/UploadingFoodItem.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXBsb2FkaW5nRm9vZEl0ZW0ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/Verlauf.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVybGF1Zi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Shared/SurveyPrompt.razor]

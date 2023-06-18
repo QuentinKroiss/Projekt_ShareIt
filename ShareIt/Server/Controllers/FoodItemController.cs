@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +8,11 @@ using ShareIt.Server.DataObjects;
 using ShareIt.Shared;
 using System;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Microsoft.Azure.Documents;
+using System.IO;
 
 namespace ShareIt.Server.Controllers
 {
@@ -39,13 +44,20 @@ namespace ShareIt.Server.Controllers
                 return BadRequest("Benutzer nicht gefunden.");
             }
 
+            var category = (DataObjects.Category)foodItemModel.Category; // Konvertiere die Kategorie aus dem Model
+
             var foodItem = new FoodItem
             {
                 Name = foodItemModel.Name,
                 Price = foodItemModel.Price,
                 Description = foodItemModel.Description,
                 UserId = user.Id,
-                ImageUrl = foodItemModel.ImageUrl // Set the ImageUrl property
+                ImageUrl = foodItemModel.ImageUrl,
+                Category = category,
+                MHD = foodItemModel.MHD,
+                Street = foodItemModel.Street, // Neue Adresseigenschaften
+                PostalCode = foodItemModel.PostalCode,
+                City = foodItemModel.City
             };
 
             try
@@ -64,14 +76,113 @@ namespace ShareIt.Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetFoodItem(int id)
         {
-            var foodItem = await _context.FoodItems.FindAsync(id);
+            var foodItem = await _context.FoodItems
+                .Include(f => f.User)
+                .FirstOrDefaultAsync(f => f.Id == id);
 
             if (foodItem == null)
             {
                 return NotFound();
             }
 
-            return Ok(foodItem);
+            // Prüfen, ob der Benutzer authentifiziert ist
+            var authState = await HttpContext.AuthenticateAsync();
+            var isAuthenticated = authState.Succeeded;
+
+            if (isAuthenticated && authState.Principal.Identity.Name == foodItem.User?.UserName)
+            {
+                // Der Benutzer ist authentifiziert und der Eigentümer des Artikels, Views nicht erhöhen
+            }
+            else
+            {
+                // Der Benutzer ist nicht der Eigentümer des Artikels, erhöhe die Views
+                foodItem.Views++;
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    // Fehler beim Speichern der Änderungen, Fehler entsprechend behandeln
+                    return BadRequest(new FoodItemResult { Successful = false, ErrorMessage = ex.Message });
+                }
+            }
+
+            var category = (ShareIt.Shared.Category)foodItem.Category;
+
+            var foodItemModel = new FoodItemModelWithId
+            {
+                Id = foodItem.Id,
+                Name = foodItem.Name,
+                Price = foodItem.Price,
+                Description = foodItem.Description,
+                ImageUrl = foodItem.ImageUrl,
+                UserName = foodItem.User?.UserName,
+                MHD = foodItem.MHD,
+                Category = category,
+                Views = foodItem.Views,
+                Street = foodItem.Street,
+                PostalCode = foodItem.PostalCode,
+                City = foodItem.City
+            };
+
+            return Ok(foodItemModel);
+        }
+
+
+
+        [HttpGet("category/{category}")]
+        public async Task<IActionResult> GetFoodItemsByCategory(int category)
+        {
+            var authState = await HttpContext.AuthenticateAsync();
+            var userName = authState.Succeeded ? authState.Principal.Identity.Name : null;
+
+            var foodItems = await _context.FoodItems
+                .Include(f => f.User)
+                .Where(f => f.Category == (DataObjects.Category)category && f.User.UserName != userName)
+                .ToListAsync();
+
+            var foodItemModels = foodItems.Select(foodItem => new FoodItemModelWithId
+            {
+                Id = foodItem.Id,
+                Name = foodItem.Name,
+                Price = foodItem.Price,
+                Description = foodItem.Description,
+                ImageUrl = foodItem.ImageUrl,
+                UserName = foodItem.User?.UserName,
+                MHD = foodItem.MHD,
+            }).ToList();
+
+            return Ok(foodItemModels);
+        }
+
+        [HttpGet("user/{userName}")]
+        public async Task<IActionResult> GetFoodItemsByUser(string userName)
+        {
+            var user = await _userManager.FindByNameAsync(userName);
+            if (user == null)
+            {
+                return NotFound("Benutzer nicht gefunden.");
+            }
+
+            var foodItems = await _context.FoodItems
+                .Include(f => f.User)
+                .Where(f => f.User.UserName == userName)
+                .ToListAsync();
+
+            var foodItemModels = foodItems.Select(foodItem => new FoodItemModelWithId
+            {
+                Id = foodItem.Id,
+                Name = foodItem.Name,
+                Price = foodItem.Price,
+                Description = foodItem.Description,
+                ImageUrl = foodItem.ImageUrl,
+                UserName = foodItem.User?.UserName,
+                MHD = foodItem.MHD,
+                Views = foodItem.Views
+            }).ToList();
+
+            return Ok(foodItemModels);
         }
 
         [HttpPut("{id}")]
@@ -89,10 +200,16 @@ namespace ShareIt.Server.Controllers
                 return NotFound();
             }
 
-            // Update properties of the foodItem entity
+            // Update the properties of the FoodItem entity
             foodItem.Name = foodItemModel.Name;
             foodItem.Price = foodItemModel.Price;
             foodItem.Description = foodItemModel.Description;
+            foodItem.ImageUrl = foodItemModel.ImageUrl;
+            foodItem.Category = (DataObjects.Category)foodItemModel.Category;
+            foodItem.MHD = foodItemModel.MHD;
+            foodItem.Street = foodItemModel.Street;
+            foodItem.PostalCode = foodItemModel.PostalCode;
+            foodItem.City = foodItemModel.City;
 
             try
             {
@@ -123,10 +240,19 @@ namespace ShareIt.Server.Controllers
                 return NotFound();
             }
 
-            _context.FoodItems.Remove(foodItem);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.FoodItems.Remove(foodItem);
+                await _context.SaveChangesAsync();
 
-            return NoContent();
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                // Fehlerbehandlung, z.B. Fehlermeldung anzeigen
+                Console.WriteLine("Fehler beim Löschen des Food-Objekts: " + ex.Message);
+                return BadRequest(new FoodItemResult { Successful = false, ErrorMessage = ex.Message });
+            }
         }
 
         private bool FoodItemExists(int id)

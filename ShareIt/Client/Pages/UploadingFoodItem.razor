@@ -1,16 +1,53 @@
 ﻿@page "/upload-food-item"
 @using ShareIt.Client.Service
 @using ShareIt.Shared
+@using Microsoft.AspNetCore.Components.Forms
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Authorization
+@using ShareIt.Shared
+@inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IFoodItemService FoodItemService
 @inject NavigationManager NavigationManager
 
-<h3 class="text-center">Objekt Schenken</h3>
-<p class="text-center mt-4">Was möchten Sie schenken?</p>
+<h3 class="text-center">Artikel hochladen</h3>
+<p class="text-center mt-2">Was möchten Sie hochladen?</p>
 
-<EditForm @bind-Model="foodItem" OnValidSubmit="UploadFoodItem">
+<EditForm Model="@foodItem" OnSubmit="UploadFoodItem">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
+                @if (!string.IsNullOrEmpty(uploadResult?.ErrorMessage))
+                {
+                    <div class="alert alert-danger">
+                        @uploadResult.ErrorMessage
+                    </div>
+                }
+
+                <div class="form-group">
+                    <div class="category-container">
+                        <div class="category-item" @onclick="() => SetCategory(Category.Lebensmittel)">
+                            <div class="category-name">Lebensmittel</div>
+                            @if (foodItem.Category == Category.Lebensmittel)
+                            {
+                                <div class="selected-indicator"></div>
+                            }
+                        </div>
+                        <div class="category-item" @onclick="() => SetCategory(Category.Getränke)">
+                            <div class="category-name">Getränke</div>
+                            @if (foodItem.Category == Category.Getränke)
+                            {
+                                <div class="selected-indicator"></div>
+                            }
+                        </div>
+                        <div class="category-item" @onclick="() => SetCategory(Category.Objekte)">
+                            <div class="category-name">Objekte</div>
+                            @if (foodItem.Category == Category.Objekte)
+                            {
+                                <div class="selected-indicator"></div>
+                            }
+                        </div>
+                    </div>
+                </div>
                 <div class="form-group">
                     <label for="foodItemName">Name:</label>
                     <input id="foodItemName" class="form-control" @bind="@foodItem.Name" />
@@ -31,37 +68,160 @@
                     <textarea id="foodItemDescription" class="form-control" @bind="@foodItem.Description"></textarea>
                     <ValidationMessage For="@(() => foodItem.Description)" />
                 </div>
-                <div class="form-group">
-                    <label for="foodItemUserName">Benutzername:</label>
-                    <input id="foodItemUserName" class="form-control" @bind="@foodItem.UserName" />
-                    <ValidationMessage For="@(() => foodItem.UserName)" />
+                @if (foodItem.Category == Category.Lebensmittel || foodItem.Category == Category.Getränke)
+                {
+                    <div class="form-group">
+                        <label for="foodItemMHD">MHD:</label>
+                        <InputDate id="foodItemMHD" class="form-control" @bind-Value="@foodItem.MHD" />
+                        <ValidationMessage For="@(() => foodItem.MHD)" />
+                    </div>
+                }
+
+                <div class="form-group mt-4">
+                    <label for="foodItemAddress">Wo soll dieser Artikel abgeholt werden können?</label>
+                    <div class="address-container">
+                        <div class="form-group">
+                            <label for="foodItemStreet">Straße:</label>
+                            <input id="foodItemStreet" class="form-control" @bind="@foodItem.Street" />
+                            <ValidationMessage For="@(() => foodItem.Street)" />
+                        </div>
+                        <div class="form-group">
+                            <label for="foodItemPostalCode">Postleitzahl:</label>
+                            <input id="foodItemPostalCode" class="form-control" @bind="@foodItem.PostalCode" />
+                            <ValidationMessage For="@(() => foodItem.PostalCode)" />
+                        </div>
+                        <div class="form-group">
+                            <label for="foodItemCity">Stadt:</label>
+                            <input id="foodItemCity" class="form-control" @bind="@foodItem.City" />
+                            <ValidationMessage For="@(() => foodItem.City)" />
+                        </div>
+                    </div>
                 </div>
-                <div class="text-center">
+                <div class="form-group text-center">
                     <button class="btn btn-primary" type="submit">Hochladen</button>
+                    <button class="btn btn-secondary" type="reset">Zurücksetzen</button>
                 </div>
             </div>
         </div>
     </div>
 </EditForm>
 
+<style>
+
+    .category-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    .category-item {
+        width: 30%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        padding: 10px;
+        text-align: center;
+        cursor: pointer;
+        position: relative;
+    }
+
+        .category-item:hover {
+            background-color: #f8f8f8;
+        }
+
+    .category-name {
+        font-weight: bold;
+    }
+
+    .selected-indicator {
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background-color: #007bff;
+    }
+
+    /* Add spacing to the elements */
+    h3.text-center {
+        margin-top: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    p.text-center {
+        margin-top: 0;
+        margin-bottom: 1rem;
+    }
+
+    .col-md-6 {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .form-group.text-center {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    .address-container {
+        border: 2px solid #007bff;
+        padding: 10px;
+        border-radius: 4px;
+        margin-top: 10px;
+    }
+
+    .form-group.mt-4 {
+        margin-top: 1.5rem;
+    }
+</style>
+
 @code {
     private FoodItemModel foodItem = new FoodItemModel();
-    private FoodItemResult? uploadResult;
+    private FoodItemResult uploadResult;
+
+    private void SetCategory(Category category)
+    {
+        foodItem.Category = category;
+    }
 
     private async Task UploadFoodItem()
     {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var userName = user.Identity?.Name;
+
+        foodItem.UserName = userName;
+
+        if (foodItem.Category == Category.Lebensmittel || foodItem.Category == Category.Getränke)
+        {
+            if (string.IsNullOrEmpty(foodItem.Name) || foodItem.Price <= 0 || string.IsNullOrEmpty(foodItem.ImageUrl) || string.IsNullOrEmpty(foodItem.Description) || foodItem.MHD == null || string.IsNullOrEmpty(foodItem.Street) || string.IsNullOrEmpty(foodItem.PostalCode) || string.IsNullOrEmpty(foodItem.City))
+            {
+                uploadResult = new FoodItemResult
+                    {
+                        Successful = false,
+                        ErrorMessage = "Es müssen alle Felder ausgefüllt werden, um einen Artikel hochzuladen."
+                    };
+                return;
+            }
+        }
+        else
+        {
+            if (string.IsNullOrEmpty(foodItem.Name) || foodItem.Price <= 0 || string.IsNullOrEmpty(foodItem.ImageUrl) || string.IsNullOrEmpty(foodItem.Description))
+            {
+                uploadResult = new FoodItemResult
+                    {
+                        Successful = false,
+                        ErrorMessage = "Es müssen alle Felder ausgefüllt werden, um einen Artikel hochzuladen."
+                    };
+                return;
+            }
+        }
+
         uploadResult = await FoodItemService.UploadFoodItem(foodItem);
 
         if (uploadResult.Successful)
         {
             // Food-Element erfolgreich hochgeladen, leite zur Erfolgsseite weiter oder führe andere Aktionen aus
-            NavigationManager.NavigateTo("/authorizedHome");
-        }
-        else
-        {
-            // Fehler beim Hochladen des Food-Elements, hier kannst du entsprechende Fehlerbehandlung durchführen
-            // z.B. Fehlermeldung anzeigen
-            Console.WriteLine(uploadResult.ErrorMessage);
+            NavigationManager.NavigateTo("/loginHome");
         }
     }
 }

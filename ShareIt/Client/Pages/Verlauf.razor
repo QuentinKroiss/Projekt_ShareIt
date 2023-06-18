@@ -1,0 +1,184 @@
+﻿@page "/verlauf"
+@using Microsoft.AspNetCore.Components.Authorization
+@using ShareIt.Shared
+@using System.Net.Http.Json
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject HttpClient httpClient
+@inject NavigationManager navigationManager
+
+<h3>Mein Verlauf</h3>
+
+@if (foodItems != null && foodItems.Any())
+{
+        <div class="food-items-container">
+        @foreach (var foodItem in foodItems)
+        {
+                    <div class="food-item-container" @onclick="() => ShowFoodItemDetails(foodItem.Id)">
+                        <div class="food-item-header">
+                            <h4>@foodItem.Name</h4>
+                            <p class="food-item-price">Preis: @foodItem.Price</p>
+                        </div>
+                        <p class="food-item-description">Beschreibung: @foodItem.Description</p>
+                        <div class="uploaded-by">
+                            <span>Dieser Artikel wurde von </span>
+                            <span class="username">@foodItem.UserName</span>
+                            <span> hochgeladen</span>
+                        </div>
+                        <div class="view-count">
+                            <span><i class="fas fa-eye"></i> Aufrufe: </span>
+                            <span class="count">@foodItem.Views</span>
+                        </div>
+                        <div class="food-item-image-container">
+                    @if (IsValidUrl(foodItem.ImageUrl))
+                    {
+                                    <img class="food-item-image" src="@foodItem.ImageUrl" alt="Bild" />
+                    }
+                    else
+                    {
+                                    <img class="food-item-image" src="https://i.ibb.co/nLNpg7H/blank-profile-picture-gb0d3bbf79-1280.png" alt="Bild" />
+                    }
+                        </div>
+                    </div>
+        }
+        </div>
+}
+else
+{
+        <p>Es wurden keine Artikel in Ihrem Verlauf gefunden.</p>
+}
+
+<style>
+    .food-items-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        grid-gap: 20px;
+    }
+
+    .food-item-container {
+        border: 1px solid #ccc;
+        padding: 10px;
+        position: relative;
+        cursor: pointer;
+        transition: box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .food-item-container:hover {
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .food-item-image-container {
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+    .food-item-image {
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+        margin: 0 auto; /* Center the image horizontally */
+    }
+
+    .food-item-details {
+        padding: 10px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .food-item-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+
+    h4 {
+        color: #333;
+        font-size: 18px;
+        margin: 0;
+    }
+
+    .food-item-price {
+        color: #888;
+        font-size: 14px;
+        margin: 0;
+    }
+
+    .food-item-description {
+        color: #555;
+        font-size: 14px;
+        margin: 0;
+        text-align: left;
+    }
+
+    .uploaded-by {
+        font-size: 12px;
+        color: #888;
+        margin-top: 5px;
+        text-align: left;
+    }
+
+    .username {
+        color: blue;
+    }
+
+    .view-count {
+        font-size: 12px;
+        color: #888;
+        margin-top: 5px;
+        text-align: left;
+    }
+
+    .view-count span {
+        display: inline-block;
+    }
+
+    .count {
+        color: #333;
+        font-weight: bold;
+        background-color: #f5f5f5;
+        padding: 3px 5px;
+        border-radius: 5px;
+    }
+</style>
+
+@code {
+    private List<FoodItemModelWithId> foodItems;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadFoodItemsByUser();
+    }
+
+    private async Task LoadFoodItemsByUser()
+    {
+        try
+        {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            var userName = user.Identity?.Name;
+
+            foodItems = await httpClient.GetFromJsonAsync<List<FoodItemModelWithId>>($"api/FoodItems/user/{userName}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Fehler beim Laden der Artikel: " + ex.Message);
+        }
+    }
+
+    private void ShowFoodItemDetails(int foodItemId)
+    {
+        navigationManager.NavigateTo($"/objectViewHistory/{foodItemId}");
+    }
+
+    private bool IsValidUrl(string url)
+    {
+        return Uri.IsWellFormedUriString(url, UriKind.Absolute);
+    }
+}

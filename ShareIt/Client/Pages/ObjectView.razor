@@ -1,0 +1,162 @@
+﻿@page "/objectView/{foodItemId}"
+@using ShareIt.Shared
+@inject HttpClient httpClient
+
+@if (foodItem != null)
+{
+    <div class="food-item-container">
+        <div class="food-item-header">
+            <h4>@foodItem.Name</h4>
+            <p class="price">Preis: @foodItem.Price</p>
+        </div>
+        <div class="food-item-details">
+            <div class="food-item-description">
+                <p>Beschreibung: @foodItem.Description</p>
+                @if (foodItem.Category == Category.Lebensmittel || foodItem.Category == Category.Getränke)
+                {
+                    <p>MHD: @foodItem.MHD</p>
+                }
+            </div>
+            <div class="food-item-address">
+                <p>Adresse zur Abholung:</p>
+                <p>@foodItem.Street</p>
+                <p>@foodItem.PostalCode @foodItem.City</p>
+            </div>
+            <div class="food-item-image-container">
+                @if (IsValidUrl(foodItem.ImageUrl))
+                {
+                    <img class="food-item-image" src="@foodItem.ImageUrl" alt="Bild" />
+                }
+                else
+                {
+                    <img class="food-item-image" src="https://i.ibb.co/nLNpg7H/blank-profile-picture-gb0d3bbf79-1280.png" alt="Bild" />
+                }
+            </div>
+            <div class="uploaded-by">
+                <span>Dieser Artikel wurde von </span>
+                <span class="username">@foodItem.UserName</span>
+                <span> hochgeladen</span>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <p>Das Food-Objekt konnte nicht geladen werden.</p>
+}
+
+<style>
+    .food-item-container {
+        margin-top: 20px;
+        width: 100%;
+        border: 1px solid #ccc;
+        padding: 10px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .food-item-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+    }
+
+    .price {
+        font-weight: bold;
+    }
+
+    .food-item-details {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .food-item-description p {
+        margin-bottom: 5px;
+    }
+
+    .food-item-address {
+        margin-top: 10px;
+        border-top: 1px solid #ccc;
+        padding-top: 10px;
+    }
+
+        .food-item-address p {
+            margin: 5px 0;
+        }
+
+    .food-item-image-container {
+        margin-top: 10px;
+        /* Stile für den Container des Bildes */
+        width: 100%;
+        height: 200px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .food-item-image {
+        /* Stile für das Bild */
+        max-width: 100%;
+        max-height: 100%;
+    }
+
+    .uploaded-by {
+        font-size: 12px;
+        color: #888;
+        margin-top: 5px;
+    }
+
+    .username {
+        color: blue;
+    }
+</style>
+
+@code {
+    [Parameter]
+    public string FoodItemId { get; set; }
+
+    private FoodItemModelWithId foodItem;
+    private bool isLoaded;
+
+    private bool IsValidUrl(string url)
+    {
+        if (!string.IsNullOrEmpty(url) && Uri.IsWellFormedUriString(url, UriKind.Absolute))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadFoodItem();
+    }
+
+    private async Task LoadFoodItem()
+    {
+        isLoaded = false;
+
+        try
+        {
+            if (int.TryParse(FoodItemId, out int id))
+            {
+                foodItem = await httpClient.GetFromJsonAsync<FoodItemModelWithId>($"api/FoodItems/{id}");
+                if (foodItem != null)
+                {
+                    isLoaded = true;
+                    StateHasChanged(); // Notify Blazor to update the UI
+                    return;
+                }
+            }
+
+            foodItem = null;
+        }
+        catch (Exception ex)
+        {
+            // Fehlerbehandlung, z.B. Fehlermeldung anzeigen
+            Console.WriteLine("Fehler beim Laden des Food-Objekts: " + ex.Message);
+        }
+    }
+}

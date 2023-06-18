@@ -120,3 +120,4 @@ C:\Users\quent\Hochschule München\4. Semester\Softwareengineering\ShareIt\Share
 C:\Users\quent\Hochschule München\4. Semester\Softwareengineering\ShareIt\ShareIt\Server\bin\Debug\net7.0\runtimes\win7-x64\native\msvcp140.dll
 C:\Users\quent\Hochschule München\4. Semester\Softwareengineering\ShareIt\ShareIt\Server\bin\Debug\net7.0\runtimes\win7-x64\native\vcruntime140.dll
 C:\Users\quent\Hochschule München\4. Semester\Softwareengineering\ShareIt\ShareIt\Server\bin\Debug\net7.0\runtimes\win7-x64\native\vcruntime140_1.dll
+C:\Users\quent\Hochschule München\4. Semester\Softwareengineering\ShareIt\ShareIt\Server\bin\Debug\net7.0\Plk.Blazor.DragDrop.dll

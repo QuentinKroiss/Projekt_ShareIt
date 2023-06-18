@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -14,6 +15,7 @@ namespace ShareIt.Client.Service
     {
         private readonly HttpClient _httpClient;
         private readonly ILocalStorageService _localStorage;
+        private List<FoodItemModel> foodItems = new List<FoodItemModel>();
 
         public FoodItemService(HttpClient httpClient, ILocalStorageService localStorage)
         {
@@ -31,8 +33,25 @@ namespace ShareIt.Client.Service
                 return new FoodItemResult { Successful = false, ErrorMessage = errorMessage };
             }
 
-            var uploadResult = await response.Content.ReadFromJsonAsync<FoodItemResult>();
-            return uploadResult ?? new FoodItemResult { Successful = false, ErrorMessage = "Error occurred during food item upload" };
+            foodItems.Add(foodItemModel); // Add the uploaded food item to the list
+
+            return new FoodItemResult { Successful = true };
         }
+
+        public async Task<FoodItemResult> UpdateFoodItem(int id, FoodItemModel foodItemModel)
+        {
+            var response = await _httpClient.PutAsJsonAsync($"api/FoodItems/{id}", foodItemModel);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                return new FoodItemResult { Successful = false, ErrorMessage = errorMessage };
+            }
+
+            // Handle the response accordingly, e.g., update the local foodItems list
+
+            return new FoodItemResult { Successful = true };
+        }
+
     }
 }
