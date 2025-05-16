@@ -123,15 +123,19 @@ namespace ShareIt.Server.Controllers
 
 
         [HttpGet("category/{category}")]
-        public async Task<IActionResult> GetFoodItemsByCategory(int category)
+        public async Task<IActionResult> GetFoodItemsByCategory(int category, [FromQuery] string? excludeUser)
         {
-            var authState = await HttpContext.AuthenticateAsync();
-            var userName = authState.Succeeded ? authState.Principal.Identity.Name : null;
-
             var foodItems = await _context.FoodItems
                 .Include(f => f.User)
-                .Where(f => f.Category == (DataObjects.Category)category && f.User.UserName != userName)
+                .Where(f => f.Category == (DataObjects.Category)category)
                 .ToListAsync();
+
+            if (!string.IsNullOrEmpty(excludeUser))
+            {
+                foodItems = foodItems
+                    .Where(f => f.User?.UserName != excludeUser)
+                    .ToList();
+            }
 
             var foodItemModels = foodItems.Select(foodItem => new FoodItemModelWithId
             {
@@ -142,10 +146,16 @@ namespace ShareIt.Server.Controllers
                 ImageUrl = foodItem.ImageUrl,
                 UserName = foodItem.User?.UserName,
                 MHD = foodItem.MHD,
+                Category = (ShareIt.Shared.Category)foodItem.Category,
+                Views = foodItem.Views,
+                Street = foodItem.Street,
+                PostalCode = foodItem.PostalCode,
+                City = foodItem.City
             }).ToList();
 
             return Ok(foodItemModels);
         }
+
 
         [HttpGet("user/{userName}")]
         public async Task<IActionResult> GetFoodItemsByUser(string userName)
