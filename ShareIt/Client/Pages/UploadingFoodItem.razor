@@ -4,10 +4,10 @@
 @using Microsoft.AspNetCore.Components.Forms
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Components.Authorization
-@using ShareIt.Shared
 @inject AuthenticationStateProvider AuthenticationStateProvider
 @inject IFoodItemService FoodItemService
 @inject NavigationManager NavigationManager
+@inject PexelsImageService PexelsImageService
 
 <h3 class="text-center">Artikel hochladen</h3>
 <p class="text-center mt-2">Was möchten Sie hochladen?</p>
@@ -16,6 +16,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6">
+
                 @if (!string.IsNullOrEmpty(uploadResult?.ErrorMessage))
                 {
                     <div class="alert alert-danger">
@@ -48,31 +49,52 @@
                         </div>
                     </div>
                 </div>
+
                 <div class="form-group">
                     <label for="foodItemName">Name:</label>
-                    <input id="foodItemName" class="form-control" @bind="@foodItem.Name" />
+                    <input id="foodItemName" class="form-control" @bind="foodItem.Name" />
                     <ValidationMessage For="@(() => foodItem.Name)" />
                 </div>
+
+                @if (!string.IsNullOrWhiteSpace(foodItem.Name))
+                {
+                    <div class="form-group">
+                        <button class="btn btn-outline-secondary" type="button" @onclick="LoadImageOptions">🔍 Bilder vorschlagen</button>
+                    </div>
+                }
+
+                @if (showImageSelection && imageOptions.Any())
+                {
+                    <div class="form-group">
+                        <label>Bild auswählen:</label>
+                        <div class="image-grid">
+                            @foreach (var img in imageOptions)
+                            {
+                                <img src="@img"
+                             @onclick="() => SelectImage(img)"
+                                     class="selectable-image @(foodItem.ImageUrl == img ? "selected-image" : "")" />
+                            }
+                        </div>
+                    </div>
+                }
+
                 <div class="form-group">
                     <label for="foodItemPrice">Preis:</label>
-                    <input id="foodItemPrice" class="form-control" @bind="@foodItem.Price" />
+                    <input id="foodItemPrice" class="form-control" @bind="foodItem.Price" />
                     <ValidationMessage For="@(() => foodItem.Price)" />
                 </div>
-                <div class="form-group">
-                    <label for="foodItemImageUrl">Foto URL:</label>
-                    <input id="foodItemImageUrl" class="form-control" @bind="@foodItem.ImageUrl" />
-                    <ValidationMessage For="@(() => foodItem.ImageUrl)" />
-                </div>
+
                 <div class="form-group">
                     <label for="foodItemDescription">Beschreibung:</label>
-                    <textarea id="foodItemDescription" class="form-control" @bind="@foodItem.Description"></textarea>
+                    <textarea id="foodItemDescription" class="form-control" @bind="foodItem.Description"></textarea>
                     <ValidationMessage For="@(() => foodItem.Description)" />
                 </div>
+
                 @if (foodItem.Category == Category.Lebensmittel || foodItem.Category == Category.Getränke)
                 {
                     <div class="form-group">
                         <label for="foodItemMHD">MHD:</label>
-                        <InputDate id="foodItemMHD" class="form-control" @bind-Value="@foodItem.MHD" />
+                        <InputDate id="foodItemMHD" class="form-control" @bind-Value="foodItem.MHD" />
                         <ValidationMessage For="@(() => foodItem.MHD)" />
                     </div>
                 }
@@ -82,32 +104,36 @@
                     <div class="address-container">
                         <div class="form-group">
                             <label for="foodItemStreet">Straße:</label>
-                            <input id="foodItemStreet" class="form-control" @bind="@foodItem.Street" />
+                            <input id="foodItemStreet" class="form-control" @bind="foodItem.Street" />
                             <ValidationMessage For="@(() => foodItem.Street)" />
                         </div>
                         <div class="form-group">
                             <label for="foodItemPostalCode">Postleitzahl:</label>
-                            <input id="foodItemPostalCode" class="form-control" @bind="@foodItem.PostalCode" />
+                            <input id="foodItemPostalCode" class="form-control" @bind="foodItem.PostalCode" />
                             <ValidationMessage For="@(() => foodItem.PostalCode)" />
                         </div>
                         <div class="form-group">
                             <label for="foodItemCity">Stadt:</label>
-                            <input id="foodItemCity" class="form-control" @bind="@foodItem.City" />
+                            <input id="foodItemCity" class="form-control" @bind="foodItem.City" />
                             <ValidationMessage For="@(() => foodItem.City)" />
                         </div>
                     </div>
                 </div>
+
                 <div class="form-group text-center">
                     <button class="btn btn-primary" type="submit">Hochladen</button>
                     <button class="btn btn-secondary" type="reset">Zurücksetzen</button>
                 </div>
+
             </div>
         </div>
     </div>
 </EditForm>
 
+@*
+    CSS für das Design der Seite
+*@
 <style>
-
     .category-container {
         display: flex;
         justify-content: space-between;
@@ -141,24 +167,7 @@
         background-color: #007bff;
     }
 
-    /* Add spacing to the elements */
-    h3.text-center {
-        margin-top: 1rem;
-        margin-bottom: 0.5rem;
-    }
-
-    p.text-center {
-        margin-top: 0;
-        margin-bottom: 1rem;
-    }
-
-    .col-md-6 {
-        margin-top: 1rem;
-        margin-bottom: 1rem;
-    }
-
-    .form-group.text-center {
-        margin-top: 1rem;
+    .form-group {
         margin-bottom: 1rem;
     }
 
@@ -169,43 +178,86 @@
         margin-top: 10px;
     }
 
-    .form-group.mt-4 {
-        margin-top: 1.5rem;
+    .image-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 1rem;
+    }
+
+    .selectable-image {
+        width: 150px;
+        height: 100px;
+        object-fit: cover;
+        border: 3px solid #ccc;
+        cursor: pointer;
+        transition: border 0.3s;
+    }
+
+        .selectable-image:hover {
+            border-color: #999;
+        }
+
+    .selected-image {
+        border-color: #007bff !important;
     }
 </style>
 
+@*
+    Methoden für die Frontend-Logik
+*@
 @code {
     private FoodItemModel foodItem = new FoodItemModel();
     private FoodItemResult uploadResult;
+    private List<string> imageOptions = new();
+    private bool showImageSelection = false;
 
     private void SetCategory(Category category)
     {
         foodItem.Category = category;
     }
 
+    private async Task LoadImageOptions()
+    {
+        imageOptions = await PexelsImageService.GetImageUrlsAsync(foodItem.Name, 6);
+
+        // Fallback-Bild, wenn keine API-URLs verfügbar sind
+        if (imageOptions == null || !imageOptions.Any())
+        {
+            imageOptions = new List<string> {
+            "https://i.ibb.co/nLNpg7H/blank-profile-picture-gb0d3bbf79-1280.png"
+        };
+        }
+
+        showImageSelection = true;
+    }
+
+    private void SelectImage(string url)
+    {
+        foodItem.ImageUrl = url;
+    }
+
     private async Task UploadFoodItem()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         var user = authState.User;
-        var userName = user.Identity?.Name;
+        foodItem.UserName = user.Identity?.Name;
 
-        foodItem.UserName = userName;
+        if (string.IsNullOrEmpty(foodItem.ImageUrl))
+        {
+            uploadResult = new FoodItemResult
+                {
+                    Successful = false,
+                    ErrorMessage = "Bitte wählen Sie ein Bild aus."
+                };
+            return;
+        }
 
         if (foodItem.Category == Category.Lebensmittel || foodItem.Category == Category.Getränke)
         {
-            if (string.IsNullOrEmpty(foodItem.Name) || foodItem.Price <= 0 || string.IsNullOrEmpty(foodItem.ImageUrl) || string.IsNullOrEmpty(foodItem.Description) || foodItem.MHD == null || string.IsNullOrEmpty(foodItem.Street) || string.IsNullOrEmpty(foodItem.PostalCode) || string.IsNullOrEmpty(foodItem.City))
-            {
-                uploadResult = new FoodItemResult
-                    {
-                        Successful = false,
-                        ErrorMessage = "Es müssen alle Felder ausgefüllt werden, um einen Artikel hochzuladen."
-                    };
-                return;
-            }
-        }
-        else
-        {
-            if (string.IsNullOrEmpty(foodItem.Name) || foodItem.Price <= 0 || string.IsNullOrEmpty(foodItem.ImageUrl) || string.IsNullOrEmpty(foodItem.Description))
+            if (string.IsNullOrEmpty(foodItem.Name) || foodItem.Price <= 0 || string.IsNullOrEmpty(foodItem.Description)
+                || foodItem.MHD == null || string.IsNullOrEmpty(foodItem.Street) || string.IsNullOrEmpty(foodItem.PostalCode)
+                || string.IsNullOrEmpty(foodItem.City))
             {
                 uploadResult = new FoodItemResult
                     {
@@ -220,7 +272,6 @@
 
         if (uploadResult.Successful)
         {
-            // Food-Element erfolgreich hochgeladen, leite zur Erfolgsseite weiter oder führe andere Aktionen aus
             NavigationManager.NavigateTo("/loginHome");
         }
     }

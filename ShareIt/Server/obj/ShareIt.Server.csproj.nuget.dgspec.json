@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Server\\ShareIt.Server.csproj": {}
+    "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Server\\ShareIt.Server.csproj": {}
   },
   "projects": {
-    "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Client\\ShareIt.Client.csproj": {
+    "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Client\\ShareIt.Client.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Client\\ShareIt.Client.csproj",
+        "projectUniqueName": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Client\\ShareIt.Client.csproj",
         "projectName": "ShareIt.Client",
-        "projectPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Client\\ShareIt.Client.csproj",
+        "projectPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Client\\ShareIt.Client.csproj",
         "packagesPath": "C:\\Users\\quent\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Client\\obj\\",
+        "outputPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Client\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\quent\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj": {
-                "projectPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj"
+              "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj": {
+                "projectPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj"
               }
             }
           }
@@ -105,14 +105,14 @@
         }
       }
     },
-    "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Server\\ShareIt.Server.csproj": {
+    "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Server\\ShareIt.Server.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Server\\ShareIt.Server.csproj",
+        "projectUniqueName": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Server\\ShareIt.Server.csproj",
         "projectName": "ShareIt.Server",
-        "projectPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Server\\ShareIt.Server.csproj",
+        "projectPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Server\\ShareIt.Server.csproj",
         "packagesPath": "C:\\Users\\quent\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Server\\obj\\",
+        "outputPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Server\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\quent\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -129,11 +129,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Client\\ShareIt.Client.csproj": {
-                "projectPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Client\\ShareIt.Client.csproj"
+              "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Client\\ShareIt.Client.csproj": {
+                "projectPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Client\\ShareIt.Client.csproj"
               },
-              "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj": {
-                "projectPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj"
+              "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj": {
+                "projectPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj"
               }
             }
           }
@@ -176,6 +176,10 @@
               "target": "Package",
               "version": "[7.0.5, )"
             },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[7.0.17, )"
+            },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -214,14 +218,14 @@
         }
       }
     },
-    "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj": {
+    "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj",
+        "projectUniqueName": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj",
         "projectName": "ShareIt.Shared",
-        "projectPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj",
+        "projectPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj",
         "packagesPath": "C:\\Users\\quent\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Shared\\obj\\",
+        "outputPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\quent\\AppData\\Roaming\\NuGet\\NuGet.Config",

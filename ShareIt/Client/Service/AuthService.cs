@@ -6,11 +6,13 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Text;
-using System.Security.Claims;
 using System.Net;
 
 namespace ShareIt.Client.Service
 {
+    // AuthService verwaltet die Authentifizierungsvorgänge im Client.
+    // Beinhaltet sind Registrierung, Login, Logout und das Löschen von Konten.
+    // Service kommuniziert mit den entsprechenden API-Endpunkten und verwaltet den Token.
     public class AuthService : IAuthService
     {
         private readonly HttpClient _httpClient;
@@ -29,9 +31,15 @@ namespace ShareIt.Client.Service
         public async Task<RegisterResult> Register(RegisterModel registerModel)
         {
             var result = await _httpClient.PostAsJsonAsync("api/Accounts", registerModel);
+
             if (!result.IsSuccessStatusCode)
-                return new RegisterResult { Successful = false, Errors = new List<string> { "Error ocured" } };
-            return new RegisterResult { Successful = true, Errors = new List<string> { "Account created succesfully" } };
+            {
+                var errorResponse = await result.Content.ReadAsStringAsync();
+                var errorResult = JsonSerializer.Deserialize<RegisterResult>(errorResponse, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
+                return errorResult;
+            }
+
+            return new RegisterResult { Successful = true };
         }
 
         public async Task<LoginResult> Login(LoginModel loginModel)

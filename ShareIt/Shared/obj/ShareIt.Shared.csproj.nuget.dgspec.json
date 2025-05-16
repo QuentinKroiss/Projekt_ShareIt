@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj": {}
+    "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj": {}
   },
   "projects": {
-    "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj": {
+    "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj",
+        "projectUniqueName": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj",
         "projectName": "ShareIt.Shared",
-        "projectPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj",
+        "projectPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Shared\\ShareIt.Shared.csproj",
         "packagesPath": "C:\\Users\\quent\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Shared\\obj\\",
+        "outputPath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\quent\\AppData\\Roaming\\NuGet\\NuGet.Config",

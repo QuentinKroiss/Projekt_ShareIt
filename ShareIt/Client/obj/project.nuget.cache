@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Xyt20CreNU8x4qjF1VtIC+kOZq+FM1VigXA/c5PszBcoHrXZ9imxynku7Mpextw5EpiC5A8VM9TEy0CBlOEM0Q==",
+  "dgSpecHash": "4MtqCpfaAeAduh4gVr1VEFdBzbJ2UM5qgDnpsRiru3hbdtotfe+VqyO71FmpDusV6UDQew55ubgLTlmGam0pqA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\Softwareengineering\\ShareIt\\ShareIt\\Client\\ShareIt.Client.csproj",
+  "projectFilePath": "C:\\Users\\quent\\Hochschule München\\4. Semester\\NET Projekt für Bewerbungen\\ShareIt\\ShareIt\\Client\\ShareIt.Client.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\quent\\.nuget\\packages\\blazored.localstorage\\4.3.0\\blazored.localstorage.4.3.0.nupkg.sha512",
     "C:\\Users\\quent\\.nuget\\packages\\microsoft.aspnetcore.authentication\\2.2.0\\microsoft.aspnetcore.authentication.2.2.0.nupkg.sha512",

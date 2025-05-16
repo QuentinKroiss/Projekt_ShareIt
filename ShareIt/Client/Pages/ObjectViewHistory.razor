@@ -4,13 +4,14 @@
 @inject HttpClient httpClient
 @inject NavigationManager navigationManager
 @inject IFoodItemService FoodItemService
+@inject PexelsImageService PexelsImageService
 
 @if (foodItem != null)
 {
     <div class="food-item-container">
         <div class="food-item-header">
             <h4>@foodItem.Name</h4>
-            <p class="price">Preis: @foodItem.Price</p>
+            <p class="price">Preis: @foodItem.Price €</p>
         </div>
         <div class="food-item-details">
             <div class="food-item-description">
@@ -71,53 +72,81 @@ else
     <div class="edit-form-overlay"></div>
     <div class="edit-form-container" style="margin-bottom: 20px;">
         <h4>Angaben ändern</h4>
-        <div class="form-group">
-            <label for="name">Name</label>
-            <input class="form-control" id="name" @bind="@editedFoodItem.Name" />
-        </div>
-        <div class="form-group">
-            <label for="price">Preis</label>
-            <input class="form-control" id="price" @bind="@editedFoodItem.Price" />
-        </div>
-        <div class="form-group">
-            <label for="description">Beschreibung</label>
-            <input class="form-control" id="description" @bind="@editedFoodItem.Description" />
-        </div>
-        <div class="form-group">
-            <label for="imageUrl">ImageUrl</label>
-            <input class="form-control" id="imageUrl" @bind="@editedFoodItem.ImageUrl" />
-        </div>
-        <div class="form-group">
-            <label for="category">Category</label>
-            <input class="form-control" id="category" @bind="@editedFoodItem.Category" />
-        </div>
-        @if (editedFoodItem.Category == Category.Lebensmittel || editedFoodItem.Category == Category.Getränke)
-        {
+        <EditForm Model="@editedFoodItem">
             <div class="form-group">
-                <label for="mhd">MHD</label>
-                <input class="form-control" id="mhd" @bind="@editedFoodItem.MHD" />
+                <label for="name">Name</label>
+                <input class="form-control" id="name" @bind="@editedFoodItem.Name" />
             </div>
-        }
-        <div class="form-group">
-            <label for="street">Street</label>
-            <input class="form-control" id="street" @bind="@editedFoodItem.Street" />
-        </div>
-        <div class="form-group">
-            <label for="postalCode">PostalCode</label>
-            <input class="form-control" id="postalCode" @bind="@editedFoodItem.PostalCode" />
-        </div>
-        <div class="form-group">
-            <label for="city">City</label>
-            <input class="form-control" id="city" @bind="@editedFoodItem.City" />
-        </div>
-        <div class="button-container">
-            <button class="blue-button" @onclick="UpdateItem">Speichern</button>
-            <button class="blue-button" @onclick="HideEditForm">Abbrechen</button>
-        </div>
+
+            <div class="form-group">
+                <button class="btn btn-outline-secondary btn-sm" type="button" @onclick="LoadImageOptions">🔍 Bilder vorschlagen</button>
+            </div>
+
+            @if (showImageSelection && imageOptions.Any())
+            {
+                <div class="form-group">
+                    <label>Bild auswählen:</label>
+                    <div class="image-grid">
+                        @foreach (var img in imageOptions)
+                        {
+                            <img src="@img"
+                     @onclick="() => SelectImage(img)"
+                                 class="selectable-image @(editedFoodItem.ImageUrl == img ? "selected-image" : "")" />
+                        }
+                    </div>
+                </div>
+            }
+
+            <div class="form-group">
+                <label for="price">Preis</label>
+                <input class="form-control" id="price" @bind="@editedFoodItem.Price" />
+            </div>
+            <div class="form-group">
+                <label for="description">Beschreibung</label>
+                <input class="form-control" id="description" @bind="@editedFoodItem.Description" />
+            </div>
+            <div class="form-group">
+                <label for="category">Category</label>
+                <div class="dropdown-container">
+                    <select class="form-control" id="category" @bind="@editedFoodItem.Category">
+                        <option value="Lebensmittel">Lebensmittel</option>
+                        <option value="Getränke">Getränke</option>
+                        <option value="Objekte">Objekte</option>
+                    </select>
+                    <div class="dropdown-arrow"></div>
+                </div>
+            </div>
+            @if (editedFoodItem.Category == Category.Lebensmittel || editedFoodItem.Category == Category.Getränke)
+            {
+                <div class="form-group">
+                    <label for="foodItemMHD">MHD:</label>
+                    <InputDate id="foodItemMHD" class="form-control" @bind-Value="@editedFoodItem.MHD" />
+                    <ValidationMessage For="@(() => editedFoodItem.MHD)" />
+                </div>
+            }
+            <div class="form-group">
+                <label for="street">Street</label>
+                <input class="form-control" id="street" @bind="@editedFoodItem.Street" />
+            </div>
+            <div class="form-group">
+                <label for="postalCode">PostalCode</label>
+                <input class="form-control" id="postalCode" @bind="@editedFoodItem.PostalCode" />
+            </div>
+            <div class="form-group">
+                <label for="city">City</label>
+                <input class="form-control" id="city" @bind="@editedFoodItem.City" />
+            </div>
+            <div class="button-container">
+                <button class="blue-button" @onclick="UpdateItem">Speichern</button>
+                <button class="blue-button" @onclick="HideEditForm">Abbrechen</button>
+            </div>
+        </EditForm>
     </div>
-  }
+}
 
-
+@*
+    CSS für das Design der Klasse
+*@
 <style>
     .food-item-container {
         margin-top: 20px;
@@ -161,17 +190,15 @@ else
 
     .food-item-image-container {
         margin-top: 10px;
-        /* Stile für den Container des Bildes */
         width: 100%;
         height: 200px;
         display: flex;
         align-items: center;
         justify-content: center;
-        position: relative; /* Hinzugefügt */
+        position: relative; 
     }
 
     .food-item-image {
-        /* Stile für das Bild */
         max-width: 100%;
         max-height: 100%;
     }
@@ -256,8 +283,8 @@ else
         padding: 20px;
         border-radius: 5px;
         z-index: 9999;
-        overflow-y: auto; /* Hinzugefügt */
-        max-height: 80%; /* Hinzugefügt */
+        overflow-y: auto; 
+        max-height: 80%; 
         margin-bottom: 20px;
     }
 
@@ -268,8 +295,53 @@ else
     .food-item-category p {
         margin: 5px 0;
     }
+
+    .dropdown-container {
+        position: relative;
+    }
+
+    .dropdown-arrow {
+        position: absolute;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border-left: 5px solid transparent;
+        border-right: 5px solid transparent;
+        border-top: 5px solid #007bff;
+        pointer-events: none;
+    }
+
+    .image-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-bottom: 1rem;
+    }
+
+    .selectable-image {
+        width: 150px;
+        height: 100px;
+        object-fit: cover;
+        border: 3px solid #ccc;
+        cursor: pointer;
+        transition: border 0.3s;
+    }
+
+        .selectable-image:hover {
+            border-color: #999;
+        }
+
+    .selected-image {
+        border-color: #007bff !important;
+    }
+
 </style>
 
+@*
+    Methoden für die Frontend-Logik
+*@
 @code {
     [Parameter]
     public string FoodItemId { get; set; }
@@ -280,6 +352,24 @@ else
     private bool showDeleteConfirmation;
     private bool showEditForm;
     private FoodItemService foodItemService;
+    private List<string> imageOptions = new();
+    private bool showImageSelection = false;
+
+    private async Task LoadImageOptions()
+    {
+        if (!string.IsNullOrWhiteSpace(editedFoodItem.Name))
+        {
+            imageOptions = await PexelsImageService.GetImageUrlsAsync(editedFoodItem.Name, 6);
+            showImageSelection = true;
+        }
+    }
+
+
+    private void SelectImage(string url)
+    {
+        editedFoodItem.ImageUrl = url;
+    }
+
 
     private bool IsValidUrl(string url)
     {
@@ -307,7 +397,7 @@ else
                 if (foodItem != null)
                 {
                     isLoaded = true;
-                    StateHasChanged(); // Notify Blazor to update the UI
+                    StateHasChanged(); 
                     return;
                 }
             }
@@ -316,14 +406,13 @@ else
         }
         catch (Exception ex)
         {
-            // Fehlerbehandlung, z.B. Fehlermeldung anzeigen
             Console.WriteLine("Fehler beim Laden des Food-Objekts: " + ex.Message);
         }
     }
 
     private void EditItem()
     {
-        editedFoodItem = new FoodItemModel
+        editedFoodItem = new FoodItemModelWithId
             {
                 Name = foodItem.Name,
                 Price = foodItem.Price,
@@ -336,7 +425,6 @@ else
                 PostalCode = foodItem.PostalCode,
                 City = foodItem.City,
                 Views = foodItem.Views,
-                // Setzen Sie hier die Werte für die anderen Eigenschaften
             };
 
         showEditForm = true;
@@ -360,6 +448,7 @@ else
                 showEditForm = false;
             }
         }
+        navigationManager.NavigateTo("/verlauf");
         
     }
 
@@ -382,8 +471,12 @@ else
         }
         catch (Exception ex)
         {
-            // Fehlerbehandlung, z.B. Fehlermeldung anzeigen
             Console.WriteLine("Fehler beim Löschen des Food-Objekts: " + ex.Message);
         }
+    }
+
+    private bool IsCategorySelected(Category category)
+    {
+        return editedFoodItem.Category == category;
     }
 }

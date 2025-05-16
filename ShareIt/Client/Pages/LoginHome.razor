@@ -22,8 +22,8 @@
             <div class="food-item-container" @onclick="() => ShowFoodItemDetails(foodItem.Id)">
                 <div class="food-item-header">
                     <h4>@foodItem.Name</h4>
-                    <p class="food-item-price">Preis: @foodItem.Price</p>
                 </div>
+                <p class="food-item-price">Preis: @foodItem.Price €</p>
                 <p class="food-item-description">Beschreibung: @foodItem.Description</p>
                 <div class="uploaded-by">
                     <span>Dieser Artikel wurde von </span>
@@ -49,6 +49,9 @@ else if (isLoaded)
     <p>Es wurden keine Artikel in dieser Kategorie gefunden.</p>
 }
 
+@*
+    CSS für das Design der Seite
+*@
 <style>
     h2.sub-heading {
         text-align: center;
@@ -85,22 +88,31 @@ else if (isLoaded)
     }
 
     .food-items-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        grid-gap: 20px;
+        display: flex;
+        justify-content: center; /* zentriert alle Karten */
+        flex-wrap: wrap; /* Umbruch nach 3 Karten */
+        gap: 20px;
     }
+
+
 
     .food-item-container {
         border: 1px solid #ccc;
         padding: 10px;
-        position: relative;
-        cursor: pointer;
+        width: 300px; /* Feste Breite für alle Karten */
+        box-sizing: border-box;
         transition: box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
     }
 
-    .food-item-container:hover {
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
-    }
+
+
+        .food-item-container:hover {
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
 
     .food-item-header {
         display: flex;
@@ -125,14 +137,20 @@ else if (isLoaded)
         color: #555;
         font-size: 14px;
         margin: 0;
-        text-align: left; /* Align the text to the left */
+        text-align: left;
+        /* Text truncation */
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
     }
+
 
     .uploaded-by {
         font-size: 12px;
         color: #888;
         margin-top: 5px;
-        text-align: left; /* Align the text to the left */
+        text-align: left; 
     }
 
     .username {
@@ -141,20 +159,24 @@ else if (isLoaded)
 
     .food-item-image-container {
         height: 200px;
+        width: 100%;
         display: flex;
-        align-items: center;
-        justify-content: center;
+        align-items: center; /* Vertikal zentrieren */
+        justify-content: center; /* Horizontal zentrieren */
         overflow: hidden;
+        text-align: center;
     }
 
     .food-item-image {
         max-width: 100%;
         max-height: 100%;
-        display: block;
-        margin: 0 auto; /* Center the image horizontally */
+        object-fit: contain; /* Wichtig für zentriertes Verhalten */
     }
 </style>
 
+@*
+    Methoden für die Frontend-Logik
+*@
 @code {
     private List<FoodItemModelWithId> foodItems;
     private bool isLoaded;
@@ -165,34 +187,27 @@ else if (isLoaded)
 
         try
         {
-            // Den angemeldeten Benutzer abrufen
             var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
             var userName = user.Identity?.Name;
 
-            // Die Lebensmittel-Elemente abrufen, ohne den angemeldeten Benutzer zu berücksichtigen
             foodItems = await httpClient.GetFromJsonAsync<List<FoodItemModelWithId>>($"api/FoodItems/category/{(int)category}?excludeUser={userName}");
 
             isLoaded = true;
         }
         catch (Exception ex)
         {
-            // Fehlerbehandlung, z.B. Fehlermeldung anzeigen
             Console.WriteLine("Fehler beim Laden der Artikel: " + ex.Message);
         }
     }
 
     private void ShowFoodItemDetails(int foodItemId)
     {
-        // Navigieren zur Objektansicht und übergeben des ausgewählten FoodItems als Parameter
         navigationManager.NavigateTo($"/objectView/{foodItemId}");
     }
 
     private bool IsValidUrl(string url)
     {
-        // Überprüfung, ob die URL gültig ist
-        // Hier können Sie Ihre eigene Logik für die URL-Validierung implementieren
-        // Zum Beispiel können Sie die Url.IsWellFormedUriString-Methode verwenden
         return Uri.IsWellFormedUriString(url, UriKind.Absolute);
     }
 }

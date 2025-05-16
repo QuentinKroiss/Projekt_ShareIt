@@ -6,13 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using ShareIt.Server.Data;
 using ShareIt.Server.DataObjects;
 using ShareIt.Shared;
-using System;
-using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Microsoft.Azure.Documents;
-using System.IO;
 
 namespace ShareIt.Server.Controllers
 {
@@ -44,7 +37,7 @@ namespace ShareIt.Server.Controllers
                 return BadRequest("Benutzer nicht gefunden.");
             }
 
-            var category = (DataObjects.Category)foodItemModel.Category; // Konvertiere die Kategorie aus dem Model
+            var category = (DataObjects.Category)foodItemModel.Category; // Konvertierung der Kategorie aus dem Model
 
             var foodItem = new FoodItem
             {
@@ -55,7 +48,7 @@ namespace ShareIt.Server.Controllers
                 ImageUrl = foodItemModel.ImageUrl,
                 Category = category,
                 MHD = foodItemModel.MHD,
-                Street = foodItemModel.Street, // Neue Adresseigenschaften
+                Street = foodItemModel.Street, 
                 PostalCode = foodItemModel.PostalCode,
                 City = foodItemModel.City
             };
@@ -68,7 +61,6 @@ namespace ShareIt.Server.Controllers
             }
             catch (Exception ex)
             {
-                // Error occurred while saving the food item, handle the error accordingly
                 return BadRequest(new FoodItemResult { Successful = false, ErrorMessage = ex.Message });
             }
         }
@@ -103,7 +95,6 @@ namespace ShareIt.Server.Controllers
                 }
                 catch (Exception ex)
                 {
-                    // Fehler beim Speichern der Änderungen, Fehler entsprechend behandeln
                     return BadRequest(new FoodItemResult { Successful = false, ErrorMessage = ex.Message });
                 }
             }
@@ -170,6 +161,7 @@ namespace ShareIt.Server.Controllers
                 .Where(f => f.User.UserName == userName)
                 .ToListAsync();
 
+
             var foodItemModels = foodItems.Select(foodItem => new FoodItemModelWithId
             {
                 Id = foodItem.Id,
@@ -179,6 +171,7 @@ namespace ShareIt.Server.Controllers
                 ImageUrl = foodItem.ImageUrl,
                 UserName = foodItem.User?.UserName,
                 MHD = foodItem.MHD,
+                Category = (ShareIt.Shared.Category)foodItem.Category,
                 Views = foodItem.Views
             }).ToList();
 
@@ -200,7 +193,6 @@ namespace ShareIt.Server.Controllers
                 return NotFound();
             }
 
-            // Update the properties of the FoodItem entity
             foodItem.Name = foodItemModel.Name;
             foodItem.Price = foodItemModel.Price;
             foodItem.Description = foodItemModel.Description;
@@ -249,7 +241,6 @@ namespace ShareIt.Server.Controllers
             }
             catch (Exception ex)
             {
-                // Fehlerbehandlung, z.B. Fehlermeldung anzeigen
                 Console.WriteLine("Fehler beim Löschen des Food-Objekts: " + ex.Message);
                 return BadRequest(new FoodItemResult { Successful = false, ErrorMessage = ex.Message });
             }

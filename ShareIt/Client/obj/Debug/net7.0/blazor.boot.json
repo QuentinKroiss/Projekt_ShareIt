@@ -226,15 +226,15 @@
       "mscorlib.dll": "sha256-3H8zsATEgIcRSRoZhWYtgfKT5VniJvhcYxLruf8koAY=",
       "netstandard.dll": "sha256-bbx+pnJNmXZyPqAgESJnWLJsbfuAl0UflLCdl9slPYE=",
       "System.Private.CoreLib.dll": "sha256-pUYF+nr8SzfBMCLc3FM2i\/YivXJlzztdLin+aUsoqP0=",
-      "ShareIt.Shared.dll": "sha256-98TUb3zkdHLZzFauUiDeV+cVLoNBgDU1zqWC6UysJoE=",
-      "ShareIt.Client.dll": "sha256-0AJ7nKB2aKd+UGQ4zO4nlPoIouv0N7eHT0rD1h41rXk="
+      "ShareIt.Shared.dll": "sha256-lnPNxGboQQ3BuDF\/GAuo5Oi1HJ\/3p+hRvN4QmdFJ1+w=",
+      "ShareIt.Client.dll": "sha256-Su0iooSxkWz\/m3W1n1Kyq5r5vEc8wVpBc7AR9WLNgJ0="
     },
     "extensions": null,
     "lazyAssembly": null,
     "libraryInitializers": null,
     "pdb": {
-      "ShareIt.Shared.pdb": "sha256-xCjduxMPzd5qk6UuogITk8\/ni7DsKak\/IgHYsxDeD+A=",
-      "ShareIt.Client.pdb": "sha256-pkoUnrzEMuBAKHZDjNqL5e7x+tc+IucFrMkQlYdv68M="
+      "ShareIt.Shared.pdb": "sha256-lton0uljQQ4OQdekH3MNAzBy59l+sPI6mTQeC68uiQA=",
+      "ShareIt.Client.pdb": "sha256-1Z4DaHp1SU3eG2rjg1R\/XmoJ0i19NY+nOpzuG0bjjLc="
     },
     "runtime": {
       "dotnet.7.0.4.6e47sk2opt.js": "sha256-3l+4ZYRWpGMbBjNqeIqO9T\/65euaOzIvRlVX2SySvFQ=",

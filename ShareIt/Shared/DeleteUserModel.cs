@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Linq;
+
 
 namespace ShareIt.Shared
 {
+    // Modell zur Validierung der Benutzereingaben beim Löschen eines Benutzerkontos.
     public class DeleteUserModel
     {
         [Required, EmailAddress, Display(Name = "Email")]

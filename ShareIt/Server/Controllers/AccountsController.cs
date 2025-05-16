@@ -2,26 +2,35 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ShareIt.Shared;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using System.Reflection.Metadata;
-using System.Runtime.ConstrainedExecution;
 
 namespace ShareIt.Server.Controllers
 {
+    // Controller zur Verwaltung von Benutzerkonten.
+    // Ermöglicht Registrierung und das Löschen eines Benutzers.
     [Route("api/[controller]")]
     [ApiController]
     public class AccountsController : ControllerBase
     {
         private readonly UserManager<IdentityUser> _userManager;
 
+        // Initialisiert eine neue Instanz des <see cref="AccountsController"/>.
         public AccountsController(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
         }
 
+        // Registriert einen neuen Benutzer mit E-Mail und Passwort.
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] RegisterModel model)
         {
+            var existingUser = await _userManager.FindByNameAsync(model.Email);
+
+            if (existingUser != null)
+            {
+                var errorMessage = $"Der Username '{model.Email}' ist leider schon vergeben.";
+                return BadRequest(new RegisterResult { Successful = false, Errors = new List<string> { errorMessage } });
+            }
+
             var newUser = new IdentityUser { UserName = model.Email, Email = model.Email };
 
             var result = await _userManager.CreateAsync(newUser, model.Password!);
@@ -30,13 +39,13 @@ namespace ShareIt.Server.Controllers
             {
                 var errors = result.Errors.Select(x => x.Description);
 
-                return Ok(new RegisterResult { Successful = false, Errors = errors });
-
+                return BadRequest(new RegisterResult { Successful = false, Errors = errors });
             }
 
             return Ok(new RegisterResult { Successful = true });
         }
 
+        // Löscht einen Benutzer anhand der E-Mail, wenn das Passwort korrekt ist.
         [HttpDelete("DeleteByEmail")]
         public async Task<IActionResult> DeleteByEmail(string email, [FromBody] DeleteUserModel model)
         {

@@ -9,89 +9,73 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = browser
 build_property.RootNamespace = ShareIt.Client
 build_property.RootNamespace = ShareIt.Client
-build_property.ProjectDir = C:\Users\quent\Hochschule München\4. Semester\Softwareengineering\ShareIt\ShareIt\Client\
+build_property.ProjectDir = C:\Users\quent\Hochschule München\4. Semester\NET Projekt für Bewerbungen\ShareIt\ShareIt\Client\
 build_property.RazorLangVersion = 7.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\quent\Hochschule München\4. Semester\Softwareengineering\ShareIt\ShareIt\Client
+build_property.MSBuildProjectDirectory = C:\Users\quent\Hochschule München\4. Semester\NET Projekt für Bewerbungen\ShareIt\ShareIt\Client
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/App.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/App.razor]
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/AuthorizedHome.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXV0aG9yaXplZEhvbWUucmF6b3I=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/DeleteItem.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGVsZXRlSXRlbS5yYXpvcg==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/DeleteUser.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/Pages/DeleteUser.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRGVsZXRlVXNlci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/FetchData.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/Index.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/Pages/Index.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXgucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/Login.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/Pages/Login.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW4ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/LoginDisplay.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/Pages/LoginDisplay.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5EaXNwbGF5LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/LoginHome.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/Pages/LoginHome.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9naW5Ib21lLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/Logout.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/Pages/Logout.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTG9nb3V0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/ObjectView.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/Pages/ObjectView.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT2JqZWN0Vmlldy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/ObjectViewHistory.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/Pages/ObjectViewHistory.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcT2JqZWN0Vmlld0hpc3RvcnkucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/Register.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/Pages/Register.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0ZXIucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/UploadingFoodItem.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/Pages/UploadingFoodItem.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVXBsb2FkaW5nRm9vZEl0ZW0ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Pages/Verlauf.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/Pages/Verlauf.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVmVybGF1Zi5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Shared/SurveyPrompt.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/Shared/SurveyPrompt.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXFN1cnZleVByb21wdC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/_Imports.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/_Imports.razor]
 build_metadata.AdditionalFiles.TargetPath = X0ltcG9ydHMucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Shared/MainLayout.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/Shared/MainLayout.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE1haW5MYXlvdXQucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-ns3sps1hez
 
-[C:/Users/quent/Hochschule München/4. Semester/Softwareengineering/ShareIt/ShareIt/Client/Shared/NavMenu.razor]
+[C:/Users/quent/Hochschule München/4. Semester/NET Projekt für Bewerbungen/ShareIt/ShareIt/Client/Shared/NavMenu.razor]
 build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXE5hdk1lbnUucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = b-9ix6guw49r

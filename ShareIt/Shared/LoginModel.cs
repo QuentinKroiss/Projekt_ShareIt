@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace ShareIt.Shared
 {
+    // Datenmodell für die Benutzeranmeldung.
+    // Enthält die erforderlichen Felder zur Authentifizierung eines Users.
     public class LoginModel
     {
         [Required, EmailAddress]

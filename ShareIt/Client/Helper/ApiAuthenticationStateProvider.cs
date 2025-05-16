@@ -6,7 +6,9 @@ using System.Text.Json;
 
 namespace ShareIt.Client.Helper
 {
-        public class ApiAuthenticationStateProvider : AuthenticationStateProvider
+    // Diese Klasse verwaltet den Authentifizierungszustand auf Basis eines gespeicherten JWT-Tokens.
+    // Sie implementiert Login/Logout und liest Benutzerinformationen aus dem Token.
+    public class ApiAuthenticationStateProvider : AuthenticationStateProvider
         {
             private readonly HttpClient _httpClient;
             private readonly ILocalStorageService _localStorage;
@@ -45,6 +47,7 @@ namespace ShareIt.Client.Helper
             NotifyAuthenticationStateChanged(authState);
         }
 
+        // Liest Claims aus dem Payload eines JWT-Tokens.
         private IEnumerable<Claim> ParseClaimsFromJwt(string jwt)
         {
             var claims = new List<Claim>();
@@ -78,6 +81,7 @@ namespace ShareIt.Client.Helper
             return claims;
         }
 
+        // Stellt sicher, dass ein Base64-String korrekt gepaddet ist.
         private byte[] ParseBase64WithoutPadding(string base64)
         {
             switch (base64.Length % 4)

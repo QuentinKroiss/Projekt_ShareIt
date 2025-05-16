@@ -43,7 +43,6 @@ namespace ShareIt.Server.DataObjects
             }
         }
 
-        [RequiredIfFoodOrBeverage]
         public DateTime? MHD
         {
             get { return mhd; }
@@ -64,19 +63,5 @@ namespace ShareIt.Server.DataObjects
         public string UserId { get; set; }
         public IdentityUser User { get; set; }
         public int Views { get; set; }
-    }
-
-    public class RequiredIfFoodOrBeverageAttribute : ValidationAttribute
-    {
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {
-            var foodItem = (FoodItem)validationContext.ObjectInstance;
-            if ((foodItem.Category == Category.Lebensmittel || foodItem.Category == Category.Getränke) && value == null)
-            {
-                return new ValidationResult("Das Mindesthaltbarkeitsdatum (MHD) muss angegeben werden.");
-            }
-
-            return ValidationResult.Success;
-        }
     }
 }
