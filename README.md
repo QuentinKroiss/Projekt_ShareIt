@@ -25,7 +25,7 @@ Die Anwendung wurde entwickelt mit:
 
 --> Userspezifische Anzeige
 > **Hinweis:**  
-> Ein eingeloggter User sieht im Home-Bereich alle Artikel die andere User hochgeladen hat,
+> Ein eingeloggter User sieht im Home-Bereich alle Artikel, welche andere User hochgeladen haben,
 > Artikel die ein User selbst hochgeladen hat, sieht er im Bereich `Meine Verläufe`
 
 --> Artikelanzeige kategorisiert in Lebensmittel, Getränke, Objekte
