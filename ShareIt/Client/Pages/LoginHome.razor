@@ -83,9 +83,9 @@ else if (isLoaded)
         cursor: pointer;
     }
 
-    .category-button:hover {
-        background-color: #0056b3;
-    }
+        .category-button:hover {
+            background-color: #0056b3;
+        }
 
     .food-items-container {
         display: flex;
@@ -150,7 +150,7 @@ else if (isLoaded)
         font-size: 12px;
         color: #888;
         margin-top: 5px;
-        text-align: left; 
+        text-align: left;
     }
 
     .username {
@@ -189,9 +189,10 @@ else if (isLoaded)
         {
             var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
             var user = authState.User;
-            var userName = user.Identity?.Name;
+            var userName = user.Identity?.Name?.ToUpper(); // <- hier standardisieren
 
-            foodItems = await httpClient.GetFromJsonAsync<List<FoodItemModelWithId>>($"api/FoodItems/category/{(int)category}?excludeUser={userName}");
+            foodItems = await httpClient.GetFromJsonAsync<List<FoodItemModelWithId>>(
+                $"api/FoodItems/category/{(int)category}?excludeUser={userName}");
 
             isLoaded = true;
         }
@@ -200,6 +201,7 @@ else if (isLoaded)
             Console.WriteLine("Fehler beim Laden der Artikel: " + ex.Message);
         }
     }
+
 
     private void ShowFoodItemDetails(int foodItemId)
     {

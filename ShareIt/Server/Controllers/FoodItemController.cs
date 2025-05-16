@@ -48,7 +48,7 @@ namespace ShareIt.Server.Controllers
                 ImageUrl = foodItemModel.ImageUrl,
                 Category = category,
                 MHD = foodItemModel.MHD,
-                Street = foodItemModel.Street, 
+                Street = foodItemModel.Street,
                 PostalCode = foodItemModel.PostalCode,
                 City = foodItemModel.City
             };
@@ -133,9 +133,11 @@ namespace ShareIt.Server.Controllers
             if (!string.IsNullOrEmpty(excludeUser))
             {
                 foodItems = foodItems
-                    .Where(f => f.User?.UserName != excludeUser)
+                    .Where(f => f.User != null &&
+                                !string.Equals(f.User.UserName, excludeUser, StringComparison.OrdinalIgnoreCase))
                     .ToList();
             }
+
 
             var foodItemModels = foodItems.Select(foodItem => new FoodItemModelWithId
             {
@@ -160,7 +162,16 @@ namespace ShareIt.Server.Controllers
         [HttpGet("user/{userName}")]
         public async Task<IActionResult> GetFoodItemsByUser(string userName)
         {
-            var user = await _userManager.FindByNameAsync(userName);
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                return BadRequest("Benutzername ist leer.");
+            }
+
+            var normalizedUserName = userName.Trim().ToLower();
+
+            var user = await _userManager.Users
+                .FirstOrDefaultAsync(u => u.NormalizedUserName == normalizedUserName.ToUpper());
+
             if (user == null)
             {
                 return NotFound("Benutzer nicht gefunden.");
@@ -168,9 +179,8 @@ namespace ShareIt.Server.Controllers
 
             var foodItems = await _context.FoodItems
                 .Include(f => f.User)
-                .Where(f => f.User.UserName == userName)
+                .Where(f => f.User.NormalizedUserName == normalizedUserName.ToUpper())
                 .ToListAsync();
-
 
             var foodItemModels = foodItems.Select(foodItem => new FoodItemModelWithId
             {
@@ -187,6 +197,7 @@ namespace ShareIt.Server.Controllers
 
             return Ok(foodItemModels);
         }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateFoodItem(int id, [FromBody] FoodItemModel foodItemModel)
