@@ -14,7 +14,7 @@ Die Anwendung wurde entwickelt mit:
 > **Hinweis:**  
 > Die Eingabe eines MHD wird nur für Getränke und Lebensmittel angezeigt.
 
---> Bildersuche über API, aufgrundlage eines Artikeltitels.  
+--> Bildersuche über API, auf Grundlage eines Artikeltitels.  
 > **Hinweis:**  
 > In dem Projekt wurde ein privater API-Key von Pexels genutzt.  
 > Um den vollen Umfang der Bildersuche nutzen zu können, müssen Sie in  
