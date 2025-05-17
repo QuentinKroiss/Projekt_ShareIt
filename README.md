@@ -46,7 +46,7 @@ Die Anwendung wurde entwickelt mit:
 Für die Nutzung der Datenbank wurde eine SQLite DB implementiert, welche durch hinterlegen von  
 `context.Database.EnsureCreated();` direkt beim ersten Starten der Anwendung eine automatische  
 Migration durchführt. Es ist demnach keine manuelle Migration einer DB mehr notwendig. Dies wurde  
-für eine besser Darstellung dieser Demo-Version umgesetzt.  
+für eine bessere Darstellung dieser Demo-Version umgesetzt.  
 
 ## TechStack
 - **Frontend**: Blazor WebAssembly
