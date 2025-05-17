@@ -28,9 +28,9 @@ Die Anwendung wurde entwickelt mit:
 > Ein eingeloggter User sieht im Home-Bereich alle Artikel, welche andere User hochgeladen haben,
 > Artikel die ein User selbst hochgeladen hat, sieht er im Bereich `Meine Verläufe`
 
---> Artikelanzeige kategorisiert in Lebensmittel, Getränke, Objekte
---> Responsives Design mit der Erkennung eines Login-Status
---> Löschen von Usern
+--> Artikelanzeige kategorisiert in Lebensmittel, Getränke, Objekte  
+--> Responsives Design mit der Erkennung eines Login-Status  
+--> Löschen von Usern  
 > **Hinweis:**  
 > Ein User kann sein Konto nur löschen, wenn sein Passwort 2x korrekt eingegeben wird.
 
